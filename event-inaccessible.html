@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Fail: Demonstration - Registration for Digital Accessibility Day</title>
+  <style>
+    /* Europea web font */
+    @font-face {
+      font-family: "Europea";
+      src: url("../assets/fonts/EuropeaVarVF.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+    }
+
+    /* Apply Europea consistently to text and form controls. */
+    html,
+    body,
+    button,
+    input,
+    select,
+    textarea {
+      font-family: "Europea", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+
+    :root {
+      --bg: #ffffff;
+      --text: #0b2545;
+      --title: #1A3C8D;
+      --accent: #0b6ed6;
+      --accent-2: #ffb400;
+      --muted: #4a4a4a;
+      --success: #137333;
+      --success-bg: #e6f4ea;
+      --danger: #c5221f;
+      --danger-bg: #fce8e6;
+      --focus: 3px solid #ffb400;
+
+      /* Fluid operational font sizing scaling natively across all screens */
+      --fs-h1: clamp(2rem, 3.5vw + 1rem, 3.4rem);
+      --fs-h2: clamp(1.4rem, 2vw + 0.8rem, 2.2rem);
+      --fs-h3: clamp(1.3rem, 1.5vw + 0.7rem, 2rem);
+      --fs-p: clamp(1.1rem, 1vw + 0.6rem, 1.8rem);
+      --fs-li: clamp(1.05rem, 0.8vw + 0.6rem, 1.5rem);
+    }
+
+    body {
+      margin: 0;
+      background: #f6f8fc;
+      color: var(--text);
+      line-height: 1.5;
+      padding: 0;
+      font-family: "Europea", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: .5rem max(1rem, calc((100vw - 980px)/2));
+      border-bottom: 3px solid #e6eefb;
+      background-color: #1A3C8D;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background-color: #1A3C8D;
+      padding: 0.75rem 1rem;
+      border-radius: 0 0 8px 8px;
+      color: #ffffff;
+    }
+
+    .brand img {
+      max-width: 100%;
+      width: 260px;
+      height: auto;
+      display: block;
+    }
+
+    .demo-intro {
+      max-width: 760px;
+    }
+
+    .demo-panel {
+      background: #fff;
+      border-radius: 12px;
+      padding: clamp(1.25rem, 3vw, 2.25rem);
+      margin: 1.5rem 0;
+      box-shadow: 0 6px 24px rgba(11, 37, 69, .07);
+    }
+
+    .demo-kicker {
+      color: #284d83;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    .page-main {
+      max-width: 980px;
+      margin: 2rem auto 4rem;
+      padding: 0 1.25rem;
+      box-sizing: border-box;
+    }
+
+    .org-unit {
+      font-size: var(--fs-p);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .meta-description {
+      color: #b9b9b9;
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .ticket-urgency-badge {
+      background-color: #ffdf00;
+      color: #ffffff;
+      padding: 1rem;
+      font-size: 13px;
+      margin-bottom: 15px;
+      border-radius: 7px;
+    }
+
+    .indicator-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background-color: var(--success);
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+
+    .form-card {
+      border: 1px solid #f8f9fb;
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin-top: 15px;
+      background: #fff;
+      max-width: 760px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+      height: 32px;
+      margin-bottom: 12px;
+      padding: 4px 8px;
+      font-size: 14px;
+      border: 1px solid #c0c0c0;
+      border-radius: 4px;
+    }
+
+    .form-card input[type=text] {
+      display: block;
+      width: 100%;
+      height: 21px;
+      padding: 0;
+      border: 1px solid #c5c5c5;
+      margin: 0 0 1.2rem;
+      font-size: 12px;
+    }
+
+    .radio-group {
+      color: #b9b9b9;
+    }
+
+    .form-card input[type=radio] {
+      width: 12px;
+      height: 12px;
+      margin: 0 2px 0 0;
+    }
+
+    .custom-check-box {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 1px solid #e5e5e5;
+      vertical-align: middle;
+      margin-right: 6px;
+      cursor: pointer;
+    }
+
+    .submit-trigger-button {
+      display: inline-block;
+      background: #1a3c8d;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 6px;
+      border: none;
+      border-radius: 4px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .hidden-feedback {
+      display: none;
+      background: #ffe6e6;
+      color: #cc0000;
+      padding: 10px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      border-radius: 4px;
+    }
+
+    .form-card :focus,
+    .form-card :focus-visible {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    @media (max-width: 640px) {
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page-header">
+    <div class="brand">
+      <img src="../ep_logo_itec.png" width="270" height="105">
+    </div>
+  </div>
+
+  <div id="maincontent" class="page-main">
+    <div class="org-unit">DG ITEC — Solution Design and Quality Assurance Unit</div>
+
+    <div style="font-size: 24px; font-weight: bold; color: #0044b3;">Digital Accessibility Day</div>
+
+    <div class="meta-description">
+      Register to attend the digital accessibility day at the European Parliament. The event is in person.
+    </div>
+
+    <div class="ticket-urgency-badge">
+      <span class="indicator-dot"></span> Look at the green circle on the left: only a few tickets remain!
+    </div>
+
+    <div id="visual-error" class="hidden-feedback">There were errors in your submission. Please correct them and try
+      again.</div>
+    <div id="registration-success" class="hidden-feedback" style="background: #e6f4ea; color: #9bb9a5;">Success! Your
+      registration has been submitted.</div>
+
+    <div class="form-card" id="registration-card">
+      <input type="text" id="fn-input" value="" placeholder="First name">
+
+      <input type="text" id="email-input" value="" placeholder="name@@domain..eu">
+
+      <div class="radio-group">
+        <input type="radio" id="location-brussels" name="location" value="Brussels"> Brussels
+        <input type="radio" id="location-luxembourg" name="location" value="Luxembourg"> Luxembourg
+      </div>
+
+      <div style="margin-top: 15px; margin-bottom: 15px;">
+        <div id="terms-box" class="custom-check-box" onclick="this.style.backgroundColor='#007bff'"></div>
+        <span style="font-size: 12px; color: #b9b9b9;">I confirm that I agree to all standard organisational terms,
+          condition specifications, and privacy data policies.</span>
+      </div>
+
+      <div style="text-align: right; margin-top: 15px;">
+        <a href="#" class="submit-trigger-button" onclick="triggerValidationFailure(); return false;">Confirm
+          Registration</a>
+      </div>
+    </div>
+
+    <div style="margin-top: 25px; font-size: 12px; text-align: center; color: #777;">
+      Contact for more information on: itec.accessibility@europarl.europa.eu
+    </div>
+  </div>
+
+  <script>
+    // Intentionally generic, visual-only validation feedback for the Fail demonstration.
+    function triggerValidationFailure() {
+      const firstName = document.getElementById('fn-input');
+      const email = document.getElementById('email-input');
+      const termsBox = document.getElementById('terms-box');
+
+      const validFirstName = firstName.value.trim() !== '';
+      const validEmail = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/.test(email.value.trim());
+      const validLocation = document.querySelector('input[name="location"]:checked') !== null;
+      const validTerms = termsBox.style.backgroundColor !== '';
+
+      const isValid = validFirstName && validEmail && validLocation && validTerms;
+      // A single generic visual message; no field-level indications or announcements.
+      document.getElementById('visual-error').style.display = isValid ? 'none' : 'block';
+      document.getElementById('registration-success').style.display = isValid ? 'block' : 'none';
+
+      if (isValid) {
+        document.getElementById('registration-card').style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
