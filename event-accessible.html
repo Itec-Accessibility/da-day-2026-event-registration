@@ -1,0 +1,781 @@
+<!doctype html>
+<html lang="en-GB">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pass: Demonstration - Registration for Digital Accessibility</title>
+  <style>
+    /* Europea web font */
+    @font-face {
+      font-family: "Europea";
+      src: url("../assets/fonts/EuropeaVarVF.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+    }
+
+    /* Apply Europea consistently to text and form controls. */
+    html,
+    body,
+    button,
+    input,
+    select,
+    textarea {
+      font-family: "Europea", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+
+    :root {
+      --bg: #ffffff;
+      --text: #0b2545;
+      --title: #1A3C8D;
+      --accent: #0b6ed6;
+      --accent-2: #ffb400;
+      --muted: #4a4a4a;
+      --success: #137333;
+      --success-bg: #e6f4ea;
+      --danger: #c5221f;
+      --danger-bg: #fce8e6;
+      --demo-error: #a3131b;
+      --focus: 3px solid #ffb400;
+
+      /* Fluid operational font sizing scaling natively across all screens */
+      --fs-h1: clamp(2rem, 3vw, 2.6rem);
+      --fs-h2: clamp(1.4rem, 2vw + 0.8rem, 2.2rem);
+      --fs-h3: clamp(1.3rem, 1.5vw + 0.7rem, 2rem);
+      --fs-p: clamp(1.05rem, 1vw + 0.6rem, 1.8rem);
+      --fs-li: clamp(1.05rem, 0.8vw + 0.6rem, 1.5rem);
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    /* Keep the radio question grouped and the options easy to select. */
+    #js-location-group {
+      margin: 1rem 0;
+      padding: 0.75rem 1rem;
+    }
+
+    #js-location-group legend {
+      font-weight: 600;
+    }
+
+    #js-location-group>div {
+      margin: 0.5rem 0;
+    }
+
+    .required-marker {
+      color: inherit;
+      font-weight: bold;
+    }
+
+    body {
+      margin: 0;
+      background: #f6f8fc;
+      color: var(--text);
+      line-height: 1.5;
+      padding: 0;
+      font-size: 1rem;
+      font-family: "Europea", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: .5rem max(1rem, calc((100vw - 980px)/2));
+      border-bottom: 3px solid #e6eefb;
+      background-color: #1A3C8D;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background-color: #1A3C8D;
+      padding: 0.75rem 1rem;
+      border-radius: 0 0 8px 8px;
+      color: #ffffff;
+    }
+
+    .brand img {
+      max-width: 100%;
+      width: 260px;
+      height: auto;
+      display: block;
+    }
+
+    main {
+      max-width: 980px;
+      margin: 0 0 .75rem;
+      min-width: 0;
+      padding: 0 1.25rem;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-size: var(--fs-h1);
+      margin: 2rem 0 0.5rem 0;
+      line-height: 1.25;
+      color: var(--title);
+    }
+
+    h2 {
+      font-size: var(--fs-h2);
+      margin: 3.5rem 0 1rem 0;
+      line-height: 1.35;
+      color: var(--title);
+      border-bottom: 2px solid #e6eefb;
+      padding-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: var(--fs-h3);
+      margin: 0 0 1rem 0;
+      color: var(--title);
+    }
+
+    p {
+      font-size: var(--fs-p);
+      margin: 0 0 1.25rem 0;
+    }
+
+    li {
+      font-size: var(--fs-li);
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .org-unit {
+      font-size: var(--fs-p);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .section-block {
+      margin-top: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .event-meta {
+      font-size: var(--fs-p);
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .details-box {
+      font-size: var(--fs-p);
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      font-style: italic;
+    }
+
+    .bold-text {
+      font-weight: bold;
+    }
+
+    /* Fixed Desktop-first Grid Configuration with safe fallback */
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .demo-card {
+      padding: max(1.5rem, 2vw);
+      border-radius: 8px;
+      border-top: 6px solid;
+      box-shadow: 0 4px 12px rgba(11, 37, 69, 0.06);
+      background-color: #ffffff;
+    }
+
+    .card-title {
+      font-size: clamp(1.2rem, 1.2vw + 0.5rem, 1.7rem);
+      font-weight: bold;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-inaccessible {
+      background-color: var(--danger-bg);
+      border-top-color: var(--danger);
+    }
+
+    .card-inaccessible .card-title {
+      color: var(--danger);
+    }
+
+    .card-accessible {
+      background-color: var(--success-bg);
+      border-top-color: var(--success);
+    }
+
+    .card-accessible .card-title {
+      color: var(--success);
+    }
+
+    .demo-intro {
+      max-width: 760px;
+    }
+
+    .demo-panel {
+      background: #fff;
+      border-radius: 12px;
+      padding: clamp(1.25rem, 3vw, 2.25rem);
+      margin: 1.5rem 0;
+      box-shadow: 0 6px 24px rgba(11, 37, 69, .07);
+    }
+
+    .demo-kicker {
+      color: #284d83;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    .demo-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .demo-list li {
+      border-bottom: 1px dashed rgba(11, 37, 69, 0.1);
+      padding-bottom: 1rem;
+    }
+
+    .demo-list li:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .demo-list a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .demo-list a:focus {
+      outline: var(--focus);
+      outline-offset: 4px;
+    }
+
+    .closing-block {
+      margin-top: 5rem;
+      padding-top: 2.5rem;
+      border-top: 3px solid #e6eefb;
+    }
+
+    .audit-box {
+      background-color: #f8fafd;
+      padding: 2rem;
+      border-radius: 8px;
+      border-left: 6px solid var(--title);
+    }
+
+    .audit-box a {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .urgency-banner {
+      border-left: 5px solid #137333;
+      background: #e6f4ea;
+      color: #164b2a;
+      padding: 1rem 1.25rem;
+      border-radius: 6px;
+      margin: 1.25rem 0;
+      font-weight: 600;
+    }
+
+    #registration-form-wrapper {
+      background: #fff;
+      border: 2px solid #8a9bb0;
+      border-radius: 12px;
+      padding: clamp(1.25rem, 3vw, 2.25rem);
+      box-shadow: 0 6px 24px rgba(11, 37, 69, .07);
+      max-width: 760px;
+    }
+
+    .form-group {
+      margin: 0 0 1.4rem;
+    }
+
+    .form-group>label,
+    .form-group legend {
+      display: block;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: .45rem;
+    }
+
+    .form-group input[type=text],
+    .form-group input[type=email] {
+      box-sizing: border-box;
+      display: block;
+      width: 100%;
+      max-width: 560px;
+      min-height: 48px;
+      border: 2px solid #65768c;
+      border-radius: 6px;
+      padding: .65rem .8rem;
+      background: #fff;
+      color: #0b2545;
+      font-size: 1rem;
+    }
+
+    #email-format-helper {
+      display: block;
+      margin-top: .4rem;
+      color: #35445a;
+      font-size: .95rem;
+    }
+
+    #js-location-group {
+      border: 2px solid #65768c;
+      border-radius: 7px;
+      max-width: 560px;
+      box-sizing: border-box;
+    }
+
+    #js-location-group>div {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      min-height: 44px;
+    }
+
+    #js-location-group input,
+    #js-terms-agreement {
+      width: 22px;
+      height: 22px;
+      flex: none;
+      accent-color: #174c93;
+    }
+
+    #js-location-group label {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      cursor: pointer;
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      margin: 1.4rem 0 .5rem;
+      max-width: 650px;
+    }
+
+    .checkbox-label {
+      display: block;
+      line-height: 1.55;
+      cursor: pointer;
+    }
+
+    .field-error-text {
+      display: block;
+      color: var(--demo-error);
+      font-size: .95rem;
+      font-weight: 650;
+      margin-top: .4rem;
+    }
+
+    [aria-invalid=true] {
+      border-color: var(--demo-error) !important;
+    }
+
+    .error-alert-box,
+    .success-alert-box {
+      box-sizing: border-box;
+      max-width: 760px;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin: 1.25rem 0;
+    }
+
+    .error-alert-box {
+      border: 3px solid var(--demo-error);
+      background: #fff5f5;
+      color: #671116;
+    }
+
+    .success-alert-box {
+      border: 3px solid #137333;
+      background: #e6f4ea;
+      color: #164b2a;
+    }
+
+    .error-alert-box ul {
+      margin: .75rem 0 0;
+      padding-left: 1.4rem;
+    }
+
+    .error-alert-box li {
+      font-size: 1rem;
+      margin: .35rem 0;
+    }
+
+    .error-alert-box a {
+      color: #83121b;
+      text-decoration: underline;
+    }
+
+    .submit-btn {
+      display: inline-block;
+      min-height: 48px;
+      padding: .75rem 1.4rem;
+      border: 2px solid #123f7d;
+      border-radius: 7px;
+      background: #1a3c8d;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 1.25rem;
+    }
+
+    .submit-btn:hover {
+      background: #12316e;
+    }
+
+    :where(a, button, input, [tabindex]):focus-visible {
+      outline: 3px solid #b04b00;
+      outline-offset: 4px;
+    }
+
+    .footer-info {
+      max-width: 980px;
+      padding: 0 1.25rem 2rem;
+      margin: auto;
+      color: #27384f;
+    }
+
+    .footer-info a {
+      color: #12458b;
+    }
+
+
+    @media (max-width: 890px) {
+      .demo-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+    }
+
+    @media (max-width:400px) {
+      main {
+        padding: 0 1rem;
+      }
+
+      #registration-form-wrapper {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header role="banner">
+    <div class="brand">
+      <img src="../ep_logo_itec.png"
+        alt="Logo of the European Parliament with text Directorate-General for Information Technologies and Cybersecurity"
+        width="270" height="105">
+    </div>
+  </header>
+  <main>
+    <section class="demo-intro">
+      <h1>Digital Accessibility Day</h1>
+      <p>Register to attend the digital accessibility day at the european parliament. Please note that this exclusive
+        event is hosted fully in person.</p>
+
+      <!-- COMPLIANT (1.4.1 / 1.3.3): Urgency state uses precise programmatic text statements rather than spatial context or single colors -->
+      <div class="urgency-banner" id="ticket-counter">
+        Notice: Only 14 remaining tickets are currently available for this physical session.
+      </div>
+    </section>
+
+    <!-- COMPLIANT (1.3.1 / 3.3.1 / 4.1.2): Live operational system status region block -->
+    <div id="status-container" tabindex="-1">
+      <div id="js-error-summary" class="error-alert-box" role="alert" hidden>
+        <strong>Please correct the formatting errors listed below to successfully submit registration.</strong>
+        <ul id="js-error-list"></ul>
+      </div>
+      <div id="js-success-summary" class="success-alert-box" role="alert" hidden>
+        <strong>Success! Your form has been submitted. Your registration pass for the European Parliament session is
+          confirmed.</strong>
+      </div>
+    </div>
+
+    <section id="registration-form-wrapper" aria-label="Registration Information Entry">
+      <p>All form fields are mandatory.</p>
+      <form id="registration-form" action="#" method="POST" novalidate onsubmit="processFormSubmission(event);">
+
+        <div class="form-group">
+          <label for="js-first-name">First Name <span class="required-marker" aria-hidden="true">*</span></label>
+          <input type="text" id="js-first-name" name="firstname" required>
+          <span id="js-first-name-error" class="field-error-text" hidden>
+            Error: Please enter your first name.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="js-email-address">Official Contact Email Address <span class="required-marker"
+              aria-hidden="true">*</span></label>
+          <input type="email" id="js-email-address" name="email" required aria-describedby="email-format-helper">
+
+          <span id="email-format-helper">
+            Example format required: username@domain.europa.eu
+          </span>
+
+          <span id="js-email-error-msg" class="field-error-text" role="alert" hidden>
+            Error: Please enter a complete email address (for example, name@example.com).
+          </span>
+        </div>
+
+        <fieldset id="js-location-group" class="form-group" aria-required="true">
+          <legend>Specify location <span class="required-marker" aria-hidden="true">*</span></legend>
+          <div>
+            <input type="radio" id="js-location-brussels" name="location" value="Brussels" required>
+            <label for="js-location-brussels">Brussels</label>
+          </div>
+          <div>
+            <input type="radio" id="js-location-luxembourg" name="location" value="Luxembourg" required>
+            <label for="js-location-luxembourg">Luxembourg</label>
+          </div>
+          <span id="js-location-error" class="field-error-text" hidden>
+            Error: Please select a location.
+          </span>
+        </fieldset>
+
+        <!-- COMPLIANT (2.5.8): Checkbox touch target is nested inside a flex container to allow easy tap selection across the text line -->
+        <div class="checkbox-container">
+          <input type="checkbox" id="js-terms-agreement" name="terms" required>
+          <label for="js-terms-agreement" class="checkbox-label">
+            I confirm that I explicitly agree to all organisational terms and conditions, session cancellation rules,
+            and
+            official data-use privacy policy statements. <span class="required-marker" aria-hidden="true">*</span>
+          </label>
+        </div>
+
+        <span id="js-terms-error-msg" class="field-error-text" hidden>
+          Error: You must agree to the terms and conditions.
+        </span>
+
+        <!-- COMPLIANT (Pointer Gestures): Replaces the messy swipe gesture requirement with a high target, single-tap accessible button -->
+        <button type="submit" class="submit-btn">Confirm In-Person Registration</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer-info">
+    For inquiries, contact: <a
+      href="mailto:itec.accessibility@europarl.europa.eu">itec.accessibility@europarl.europa.eu</a>
+  </footer>
+
+  <script>
+    function updateFieldError(fieldId, errorId, isValid) {
+      const field = document.getElementById(fieldId);
+      const error = document.getElementById(errorId);
+
+      const descriptions = (field.getAttribute('aria-describedby') || '')
+        .split(/\s+/)
+        .filter(id => id && id !== errorId);
+
+      if (isValid) {
+        error.hidden = true;
+        field.removeAttribute('aria-invalid');
+      } else {
+        error.hidden = false;
+        field.setAttribute('aria-invalid', 'true');
+        descriptions.push(errorId);
+      }
+
+      if (descriptions.length > 0) {
+        field.setAttribute('aria-describedby', descriptions.join(' '));
+      } else {
+        field.removeAttribute('aria-describedby');
+      }
+    }
+
+    // The fieldset groups both radio buttons under one question and error message.
+    function updateLocationError(isValid) {
+      const group = document.getElementById('js-location-group');
+      const error = document.getElementById('js-location-error');
+      const radios = group.querySelectorAll('input[type="radio"]');
+
+      error.hidden = isValid;
+      if (isValid) {
+        group.removeAttribute('aria-describedby');
+      } else {
+        group.setAttribute('aria-describedby', 'js-location-error');
+      }
+
+      radios.forEach(function (radio) {
+        if (isValid) {
+          radio.removeAttribute('aria-invalid');
+          radio.removeAttribute('aria-describedby');
+        } else {
+          radio.setAttribute('aria-invalid', 'true');
+          radio.setAttribute('aria-describedby', 'js-location-error');
+        }
+      });
+    }
+
+    // Clear a previously displayed location error when a choice is made.
+    document.querySelectorAll('input[name="location"]').forEach(function (radio) {
+      radio.addEventListener('change', function () {
+        if (radio.checked) {
+          updateLocationError(true);
+        }
+      });
+    });
+
+    const emailInput = document.getElementById('js-email-address');
+
+    // Simple complete-address format check, not verification that the address exists.
+    function isEmailFormatValid(value) {
+      return /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/.test(value.trim());
+    }
+
+    // Validate after the user leaves the email field, not on every keystroke.
+    emailInput.addEventListener('blur', function () {
+      if (emailInput.value.trim() !== '') {
+        updateFieldError('js-email-address', 'js-email-error-msg',
+          isEmailFormatValid(emailInput.value));
+      }
+    });
+
+    // Once an error is displayed, clear it as soon as the address is corrected.
+    emailInput.addEventListener('input', function () {
+      if (isEmailFormatValid(emailInput.value)) {
+        updateFieldError('js-email-address', 'js-email-error-msg', true);
+      }
+    });
+
+    function addErrorToSummary(fieldId, message) {
+      const errorList = document.getElementById('js-error-list');
+
+      const listItem = document.createElement('li');
+      const link = document.createElement('a');
+
+      link.href = '#' + fieldId;
+      link.textContent = message;
+
+      // Explicit focus movement also works when activated in screen-reader browse mode.
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        const field = document.getElementById(fieldId);
+        if (field) {
+          field.focus();
+        }
+      });
+
+      listItem.appendChild(link);
+      errorList.appendChild(listItem);
+    }
+
+    function processFormSubmission(event) {
+      event.preventDefault();
+
+      // Get form fields
+      const firstName = document.getElementById('js-first-name');
+      const email = document.getElementById('js-email-address');
+      const terms = document.getElementById('js-terms-agreement');
+      const selectedLocation = document.querySelector('input[name="location"]:checked');
+
+      // Validate fields
+      const isFirstNameValid = firstName.value.trim() !== '';
+      const isEmailValid = isEmailFormatValid(email.value);
+      const isTermsValid = terms.checked;
+      const isLocationValid = selectedLocation !== null;
+
+      // Update inline errors
+      updateFieldError('js-first-name', 'js-first-name-error', isFirstNameValid);
+      updateFieldError('js-email-address', 'js-email-error-msg', isEmailValid);
+      updateFieldError('js-terms-agreement', 'js-terms-error-msg', isTermsValid);
+      updateLocationError(isLocationValid);
+
+      // Clear previous error summary
+      const errorList = document.getElementById('js-error-list');
+      errorList.innerHTML = '';
+
+      // Add links for invalid fields
+      if (!isFirstNameValid) {
+        addErrorToSummary('js-first-name', 'Please enter your first name.');
+      }
+
+      if (!isEmailValid) {
+        addErrorToSummary('js-email-address', 'Please enter a valid email address.');
+      }
+
+      if (!isLocationValid) {
+        addErrorToSummary('js-location-brussels', 'Please select a location.');
+      }
+
+      if (!isTermsValid) {
+        addErrorToSummary('js-terms-agreement', 'Please agree to the terms and conditions.');
+      }
+
+      // Determine overall form validity
+      const isFormValid =
+        isFirstNameValid &&
+        isEmailValid &&
+        isLocationValid &&
+        isTermsValid;
+
+      if (isFormValid) {
+        showNotification('success');
+
+        // Hide the completed registration form after successful validation
+        document.getElementById('registration-form-wrapper').hidden = true;
+
+        // Move focus to the confirmation because the submit button is now hidden
+        const successSummary = document.getElementById('js-success-summary');
+        successSummary.setAttribute('tabindex', '-1');
+        successSummary.focus();
+      } else {
+        showNotification('error');
+
+        // Move focus to the error summary
+        document.getElementById('js-error-summary').setAttribute('tabindex', '-1');
+        document.getElementById('js-error-summary').focus();
+      }
+    }
+
+    function hideNotifications() {
+      document.getElementById('js-error-summary').hidden = true;
+      document.getElementById('js-success-summary').hidden = true;
+    }
+
+    function showNotification(type) {
+      hideNotifications();
+
+      if (type === 'error') {
+        document.getElementById('js-error-summary').hidden = false;
+      }
+
+      if (type === 'success') {
+        document.getElementById('js-success-summary').hidden = false;
+      }
+    }
+
+  </script>
+</body>
+
+</html>
