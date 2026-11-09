@@ -196,7 +196,6 @@
       border: 1px solid #e5e5e5;
       vertical-align: middle;
       margin-right: 6px;
-      cursor: pointer;
     }
 
     .custom-radio-group {
@@ -210,6 +209,7 @@
       border-radius: 50%;
       display: inline-block;
       box-sizing: border-box;
+      cursor: pointer;
     }
 
     .custom-radio-option.selected .custom-radio-circle {
@@ -336,14 +336,17 @@
 
   <script>
     let selectedLocation = null;
-    document.querySelectorAll('.custom-radio-option')
-      .forEach(option => {
-        option.addEventListener('click', function () {
+    document.querySelectorAll('.custom-radio-circle')
+      .forEach(circle => {
+        circle.addEventListener('click', function () {
           document.querySelectorAll('.custom-radio-option')
-            .forEach(item => item.classList.remove('selected'));
+            .forEach(option => option.classList.remove('selected'));
 
-          this.classList.add('selected');
-          selectedLocation = this.dataset.value;
+          // Select parent option
+          const option = this.closest('.custom-radio-option');
+          option.classList.add('selected');
+
+          selectedLocation = option.dataset.value;
         });
       });
 
