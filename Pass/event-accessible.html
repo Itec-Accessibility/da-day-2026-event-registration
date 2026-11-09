@@ -337,7 +337,7 @@
       min-height: 60px;
     }
 
-    #email-format-helper,
+    .email-format-helper,
     .accommodations-format-helper {
       display: block;
       margin-top: .4rem;
@@ -345,6 +345,7 @@
       font-size: .95rem;
     }
 
+    .email-format-helper,
     .accommodations-format-helper {
       font-weight: 400;
       margin-top: 0;
@@ -546,13 +547,12 @@
         </div>
 
         <div class="form-group">
-          <label for="js-email-address">Official contact email address <span class="required-marker"
-              aria-hidden="true">*</span></label>
-          <input type="email" id="js-email-address" name="email" required aria-describedby="email-format-helper">
-
-          <span id="email-format-helper">
-            Example format: username@domain.eu
-          </span>
+          <label for="js-email-address">Email address <span class="required-marker" aria-hidden="true">*</span>
+            <span id="email-format-helper" class="email-format-helper">
+              Example format: username@domain.eu
+            </span>
+          </label>
+          <input type="email" id="js-email-address" name="email" required>
 
           <span id="js-email-error-msg" class="field-error-text" role="alert" hidden>
             Error: Please enter a complete email address (for example, name@example.com).
