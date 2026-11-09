@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  
+
   <title>Demo: Inaccessible event registration</title>
   <style>
     /* Europea web font */
@@ -191,12 +191,30 @@
 
     .custom-check-box {
       display: inline-block;
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       border: 1px solid #e5e5e5;
       vertical-align: middle;
       margin-right: 6px;
       cursor: pointer;
+    }
+
+    .custom-radio-group {
+      display: flex;
+    }
+
+    .custom-radio-circle {
+      width: 12px;
+      height: 12px;
+      border: 1px solid #aaa;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+    }
+
+    .custom-radio-option.selected .custom-radio-circle {
+      background-color: #007bff;
+      box-shadow: inset 0 0 0 3px white;
     }
 
     .submit-trigger-button {
@@ -257,11 +275,14 @@
     <div style="font-size: 24px; font-weight: bold; color: #0044b3;">Digital Accessibility Day</div>
 
     <div class="meta-description">
-      Register to attend the digital accessibility day at the European Parliament. Please note that this is an in-person-only event.
+      Register to attend the digital accessibility day at the European Parliament. Please note that this is an
+      in-person-only event.
     </div>
 
     <div class="ticket-urgency-badge">
-      <span class="indicator-dot"></span>Seat availability is shown by the circle on the left: green = open, red = full.</div>
+      <span class="indicator-dot"></span>Seat availability is shown by the circle on the left: green = open, red =
+      close.
+    </div>
 
     <div id="visual-error" class="hidden-feedback">There were errors in your submission. Please correct them and try
       again.</div>
@@ -271,11 +292,18 @@
     <div class="form-card" id="registration-card">
       <input type="text" id="fn-input" value="" placeholder="First name">
 
-      <input type="text" id="email-input" value="" placeholder="name@@domain..eu">
+      <input type="text" id="email-input" value="" placeholder="username@domain.eu">
 
-      <div class="radio-group">
-        <input type="radio" id="location-brussels" name="location" value="Brussels"> Brussels
-        <input type="radio" id="location-luxembourg" name="location" value="Luxembourg"> Luxembourg
+      <div class="custom-radio-group">
+        <div class="custom-radio-option" data-value="Brussels">
+          <span class="custom-radio-circle"></span>
+          Brussels
+        </div>
+
+        <div class="custom-radio-option" data-value="Luxembourg">
+          <span class="custom-radio-circle"></span>
+          Luxembourg
+        </div>
       </div>
 
       <div class="form-group">
@@ -292,12 +320,12 @@
       </div>
 
       <div style="text-align: right; margin-top: 15px;">
-        <a href="#" class="submit-trigger-button" onclick="triggerValidationFailure(); return false;">
+        <div href="#" class="submit-trigger-button" onclick="triggerValidationFailure(); return false;">
           <svg width="18" height="18" viewBox="0 0 800 800" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path 
+            <path
               d="M688.462 111.538C683.226 106.113 676.487 102.38 669.111 100.819C661.735 99.2573 654.061 99.9396 647.076 102.778L125.074 303.362C117.724 306.167 111.395 311.132 106.92 317.602C102.444 324.072 100.032 331.745 100 339.612C99.9584 348.03 102.686 356.228 107.763 362.942C112.84 369.657 119.984 374.515 128.094 376.769L350.731 450.779L424.742 673.416C427.203 681.048 431.995 687.717 438.443 692.486C444.891 697.254 452.671 699.882 460.69 700C468.608 700.029 476.348 697.645 482.878 693.166C489.408 688.687 494.418 682.325 497.242 674.926L697.222 152.924C700.06 145.939 700.743 138.265 699.181 130.889C697.62 123.513 693.887 116.774 688.462 111.538ZM158.303 339.612L598.44 170.445L361.606 407.279L158.303 339.612ZM460.388 641.697L392.721 438.394L629.555 201.559L460.388 641.697Z" />
           </svg>
-        </a>
+        </div>
       </div>
     </div>
 
@@ -307,6 +335,18 @@
   </div>
 
   <script>
+    let selectedLocation = null;
+    document.querySelectorAll('.custom-radio-option')
+      .forEach(option => {
+        option.addEventListener('click', function () {
+          document.querySelectorAll('.custom-radio-option')
+            .forEach(item => item.classList.remove('selected'));
+
+          this.classList.add('selected');
+          selectedLocation = this.dataset.value;
+        });
+      });
+
     // Intentionally generic, visual-only validation feedback for the Fail demonstration.
     function triggerValidationFailure() {
       const firstName = document.getElementById('fn-input');
@@ -315,7 +355,7 @@
 
       const validFirstName = firstName.value.trim() !== '';
       const validEmail = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/.test(email.value.trim());
-      const validLocation = document.querySelector('input[name="location"]:checked') !== null;
+      const validLocation = selectedLocation !== null;
       const validTerms = termsBox.style.backgroundColor !== '';
 
       const isValid = validFirstName && validEmail && validLocation && validTerms;
