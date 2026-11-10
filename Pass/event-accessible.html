@@ -143,6 +143,10 @@
       margin: 0 0 1.25rem 0;
     }
 
+    .form-instructions {
+      font-size: 1rem;
+    }
+
     li {
       font-size: var(--fs-li);
       margin-bottom: 1.25rem;
@@ -535,7 +539,7 @@
     </div>
 
     <section id="registration-form-wrapper" aria-label="Registration Information Entry">
-      <p>Fields marked with an asterisk (*) are required.</p>
+      <p class="form-instructions">Fields marked with an asterisk (*) are required.</p>
       <form id="registration-form" action="#" method="POST" novalidate onsubmit="processFormSubmission(event);">
 
         <div class="form-group">
