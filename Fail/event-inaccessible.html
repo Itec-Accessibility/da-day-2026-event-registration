@@ -124,19 +124,19 @@
     }
 
     .ticket-urgency-badge {
-      background-color: #ffdf00;
-      color: #ffffff;
+      color: var(--text);
       padding: 1rem;
-      font-size: 13px;
       margin-bottom: 15px;
       border-radius: 7px;
+      font-weight: 700;
+      display: flex;
     }
 
     .indicator-dot {
       display: inline-block;
-      width: 10px;
-      height: 10px;
-      background-color: var(--success);
+      width: 1.3rem;
+      height: 1.3rem;
+      background-color: #2aa160;
       border-radius: 50%;
       margin-right: 6px;
     }
@@ -280,7 +280,7 @@
     </div>
 
     <div class="ticket-urgency-badge">
-      <span class="indicator-dot"></span>Seat availability is shown by the circle on the left: green = open, red =
+      <span class="indicator-dot"></span>Seat availability is indicated by the circle on the left: green = open, red =
       close.
     </div>
 
@@ -320,7 +320,7 @@
       </div>
 
       <div style="text-align: right; margin-top: 15px;">
-        <div href="#" class="submit-trigger-button" onclick="triggerValidationFailure(); return false;">
+        <div class="submit-trigger-button" onclick="triggerValidationFailure(); return false;">
           <svg width="18" height="18" viewBox="0 0 800 800" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M688.462 111.538C683.226 106.113 676.487 102.38 669.111 100.819C661.735 99.2573 654.061 99.9396 647.076 102.778L125.074 303.362C117.724 306.167 111.395 311.132 106.92 317.602C102.444 324.072 100.032 331.745 100 339.612C99.9584 348.03 102.686 356.228 107.763 362.942C112.84 369.657 119.984 374.515 128.094 376.769L350.731 450.779L424.742 673.416C427.203 681.048 431.995 687.717 438.443 692.486C444.891 697.254 452.671 699.882 460.69 700C468.608 700.029 476.348 697.645 482.878 693.166C489.408 688.687 494.418 682.325 497.242 674.926L697.222 152.924C700.06 145.939 700.743 138.265 699.181 130.889C697.62 123.513 693.887 116.774 688.462 111.538ZM158.303 339.612L598.44 170.445L361.606 407.279L158.303 339.612ZM460.388 641.697L392.721 438.394L629.555 201.559L460.388 641.697Z" />
