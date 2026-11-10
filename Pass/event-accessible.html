@@ -535,7 +535,7 @@
     </div>
 
     <section id="registration-form-wrapper" aria-label="Registration Information Entry">
-      <p>Mandatory form fields are marked with a star.</p>
+      <p>Fields marked with an asterisk (*) are required.</p>
       <form id="registration-form" action="#" method="POST" novalidate onsubmit="processFormSubmission(event);">
 
         <div class="form-group">
@@ -657,11 +657,45 @@
       });
     }
 
+    // Remove a resolved error from the submission summary, if present.
+    // Never create new errors here: full-form validation runs only on submit.
+    function removeResolvedSummaryError(fieldId) {
+      const errorList = document.getElementById('js-error-list');
+      const link = Array.from(errorList.querySelectorAll('a')).find(function (item) {
+        return item.getAttribute('href') === '#' + fieldId;
+      });
+      if (link) {
+        link.closest('li').remove();
+      }
+      if (!errorList.querySelector('li')) {
+        document.getElementById('js-error-summary').hidden = true;
+      }
+    }
+
+    // First name: no validation before submit; clear an existing error on valid input.
+    document.getElementById('js-first-name').addEventListener('input', function () {
+      if (this.value.trim() !== '' && !document.getElementById('js-first-name-error').hidden) {
+        updateFieldError('js-first-name', 'js-first-name-error', true);
+        removeResolvedSummaryError('js-first-name');
+      }
+    });
+
+    // Terms: clear an existing error immediately when checked.
+    document.getElementById('js-terms-agreement').addEventListener('change', function () {
+      if (this.checked) {
+        if (!document.getElementById('js-terms-error-msg').hidden) {
+          updateFieldError('js-terms-agreement', 'js-terms-error-msg', true);
+        }
+        removeResolvedSummaryError('js-terms-agreement');
+      }
+    });
+
     // Clear a previously displayed location error when a choice is made.
     document.querySelectorAll('input[name="location"]').forEach(function (radio) {
       radio.addEventListener('change', function () {
         if (radio.checked) {
           updateLocationError(true);
+          removeResolvedSummaryError('js-location-brussels');
         }
       });
     });
@@ -676,8 +710,11 @@
     // Validate after the user leaves the email field, not on every keystroke.
     emailInput.addEventListener('blur', function () {
       if (emailInput.value.trim() !== '') {
-        updateFieldError('js-email-address', 'js-email-error-msg',
-          isEmailFormatValid(emailInput.value));
+        const isValid = isEmailFormatValid(emailInput.value);
+        updateFieldError('js-email-address', 'js-email-error-msg', isValid);
+        if (isValid) {
+          removeResolvedSummaryError('js-email-address');
+        }
       }
     });
 
@@ -685,6 +722,7 @@
     emailInput.addEventListener('input', function () {
       if (isEmailFormatValid(emailInput.value)) {
         updateFieldError('js-email-address', 'js-email-error-msg', true);
+        removeResolvedSummaryError('js-email-address');
       }
     });
 
