@@ -143,14 +143,14 @@
       margin: 0 0 1.25rem 0;
     }
 
-    .form-instructions {
-      font-size: 1rem;
-    }
-
     li {
       font-size: var(--fs-li);
       margin-bottom: 1.25rem;
       line-height: 1.5;
+    }
+
+    .form-instructions {
+      font-size: 1rem;
     }
 
     .org-unit {
@@ -366,13 +366,13 @@
       display: flex;
       align-items: center;
       gap: .6rem;
-      min-height: 44px;
+      min-height: 2.75rem;
     }
 
     #js-location-group input,
     #js-terms-agreement {
-      width: 22px;
-      height: 22px;
+      width: 1.5rem;
+      height: 1.5rem;
       flex: none;
       accent-color: #174c93;
     }
@@ -380,7 +380,7 @@
     #js-location-group label {
       display: inline-flex;
       align-items: center;
-      min-height: 44px;
+      min-height: 2.75rem;
       cursor: pointer;
     }
 
@@ -448,7 +448,7 @@
 
     .submit-btn {
       display: inline-block;
-      min-height: 48px;
+      min-height: 3rem;
       padding: .75rem 1.4rem;
       border: 2px solid #123f7d;
       border-radius: 7px;
@@ -524,7 +524,7 @@
 
       <!-- COMPLIANT (1.4.1 / 1.3.3): Urgency state uses precise programmatic text statements rather than spatial context or single colors -->
       <div class="urgency-banner" id="ticket-counter" role="status" aria-atomic="true">
-        Only <span id="js-remaining-tickets">14</span> places remaining. </div>
+        <span id="js-remaining-tickets">14</span> places available. </div>
     </section>
 
     <!-- COMPLIANT (1.3.1 / 3.3.1 / 4.1.2): Live operational system status region block -->
